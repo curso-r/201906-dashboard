@@ -70,7 +70,7 @@ Column
 
 ### Perfil dos clientes
 
-```{r, fig.width=5, fig.height=3.5}
+```{r, fig.width=4.5, fig.height=3.5}
 credit %>% 
   mutate(status = fct_rev(status)) %>% 
   ggplot(aes(y = status, x = idade, fill = status)) +
