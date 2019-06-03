@@ -1,0 +1,119 @@
+---
+title: "Pacote scales"
+author: "Curso-R e alunos"
+date: "1º de junho de 2019"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE, 
+  warning = FALSE, 
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+```{r}
+library(tidyverse)
+imdb <- read_rds("../dados/imdb.rds")
+```
+
+#### Exemplo de uso do `scales::dollar` em tabelas
+
+A tabela abaixo utiliza a função `scales::dollar()` para deixar o formato do campo `orcamento` mais adequado. Repare que é possível trocar o prefixo da moeda para `R$` também.
+
+```{r}
+imdb %>% 
+  filter(diretor == "Quentin Tarantino") %>%
+  arrange(ano) %>%
+  select(`Título` = titulo, Ano = ano, orcamento_sem_formatacao = orcamento) %>%
+  mutate(
+    orcamento_com_formatacao = scales::dollar(orcamento_sem_formatacao),
+    orcamento_em_reais = scales::dollar(orcamento_sem_formatacao, prefix = "R$", big.mark = ".", decimal.mark = ",")
+  ) %>%
+  knitr::kable()
+```
+
+
+Outros formatos comuns fornecidos pelo `scales::` são
+
+- `scales::percent()`
+- `scales::comma()`
+- `scales::dollar()`
+- `scales::scientific()`
+- `scales::pvalue()`
+
+
+#### Exemplo de uso do `scales::dollar` de gráfico
+
+No nosso primeiro rmarkdown nós vimos um exemplo de uso de `scales::dollar` no ggplot2 quando usamos a função `scale_y_continuous(label = scales::dollar)`. 
+
+O formato dos textos são especificados dentro das famílias de funções `scale_*(label = ...)` do ggplot2.
+
+```{r}
+imdb %>%
+  filter(!is.na(balanco)) %>% 
+  mutate(
+    lucro = ifelse(balanco <= 0, "Não", "Sim")
+  ) %>%
+  ggplot() +
+  geom_point(mapping = aes(x = orcamento, y = receita, color = lucro)) +
+  labs(x = "Orçamento", y = "Arrecadação", color = "Houve lucro?") +
+  scale_y_continuous(label = scales::dollar) +
+  scale_x_continuous(label = scales::dollar) +
+  theme_minimal()
+```
+
+### Exercícios
+
+1. Dentro de um **chunk**, escreva `scales::` e pressione TAB para listar todas as funções disponíveis no pacote `scales`. Encontre a função para transformar em formato de porcentagem `scales::percent` e consulte sua documentação.
+
+2. Formate a tabela abaixo para deixar os valores da coluna `p` em formato percentual (`XX%`).
+
+```{r}
+proporcao_bw_por_ano <- imdb %>%
+  filter(ano > 1940) %>%
+  count(ano, cor) %>%
+  group_by(ano) %>%
+  mutate(
+    p = n/sum(n)
+  ) %>%
+  ungroup() %>%
+  filter(cor == "Black and White") %>%
+  select(ano, p) %>%
+  arrange(ano) %>%
+  mutate(
+    p_formatado = # seu código aqui
+  )
+
+knitr::kable(proporcao_bw_por_ano)
+```
+
+3. O gráfico abaixo é uma representação da tabela do exercício 1. Usando a função `scale_y_continuous(label = ...)` e o `scale::percent`, faça o eixo Y apresentar os números no formato de porcentagem.
+
+```{r}
+grafico_proporcao_bw_por_ano <- proporcao_bw_por_ano %>%
+  ggplot(aes(x = ano, y = p)) +
+  geom_line() 
+  # ESCREVA CÓDIGO AQUI
+
+grafico_proporcao_bw_por_ano
+```
+
+4. (Avançado) Função `scales::percent_format()`. Suponha que seja necessário deixar 12,34% em vez de 12,3%, ou seja, duas casas depois da vírgula em vez de uma só. A função `scales::percent()` não irá permitir essa customização diretamente, para isso precisaremos criar nossa própria função de formatação. Quem nos ajuda a criar tal função é a `scales::percent_format()`. Exemplo:
+
+```{r}
+meu_percent <- scales::percent_format(big.mark = ".", decimal.mark = ",", accuracy = 0.01)
+meu_percent(0.1234567)
+```
+
+Copie e cole o gráfico do exercício 3 e utilize o `meu_percent` para colocar duas casas depois da vírgula no eixo Y.
+
+```{r}
+# código aqui
+```
+
+
+
