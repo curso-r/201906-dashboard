@@ -97,3 +97,53 @@ class: middle, center, inverse
 
 <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" width = "300" height = "300">
 
+---
+class: middle, center, inverse
+
+# Shiny
+
+---
+
+# Shiny
+
+Pacote do R que facilita a criação de aplicativos web pelo R. 
+
+## Tópicos da aula de hoje
+
+- Introdução ao [shiny](http://shiny.rstudio.com/)
+- [Reatividade](http://shiny.rstudio.com/articles/reactivity-overview.html)
+- [Shinydashboards](https://rstudio.github.io/shinydashboard/)
+
+---
+
+# Materiais úteis
+
+- [Cheatsheet](http://shiny.rstudio.com/articles/cheatsheet.html)
+- [Galeria de widgets](http://shiny.rstudio.com/gallery/widget-gallery.html)
+- [Galeria de shiny's](http://shiny.rstudio.com/gallery/)
+- [Mais apps](https://www.rstudio.com/products/shiny/shiny-user-showcase/)
+- [Como entender reatividade no R](http://shiny.rstudio.com/articles/understanding-reactivity.html)
+- [Muito mais](http://shiny.rstudio.com/articles/)
+
+---
+
+# Reatividade
+
+![](http://www.giphy.com/gifs/YS5RRVnaB6rtecGHWp)
+
+---
+
+# Reatividade
+
+![](http://www.giphy.com/gifs/LmmJHbz4f00EGSrYUs)
+
+---
+
+# Reatividade
+
+<video width="100%">
+<source src="img/isolating.mp4" type="video/mp4">
+</video>
+
+
+
