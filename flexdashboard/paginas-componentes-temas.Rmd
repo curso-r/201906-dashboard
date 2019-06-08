@@ -4,12 +4,13 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-    theme: bootstrap
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(tidyverse)
+library(ggridges)
+#install.packages("ggridges")
 
 credit <- read_rds("../dados/credit.rds")
 ```
@@ -17,7 +18,7 @@ credit <- read_rds("../dados/credit.rds")
 Empréstimos
 =======================================================================
 
-Column {data-width=250}
+Column {data-width=150}
 -----------------------------------------------------------------------
 
 ### Número de clientes
@@ -38,7 +39,7 @@ valueBox(emprestimo_medio, icon = "fa-dollar-sign", color = "warning")
 ### Tempo médio de empréstimo
 
 ```{r}
-tempo_medio <- mean(credit$tempo_emprestimo, na.rm = TRUE) %>% 
+tempo_medio <- mean(credit$tempo_emprestimo, na.rm = TRUE) %>%
   round(0) %>% 
   paste("meses")
   
@@ -48,7 +49,7 @@ valueBox(tempo_medio, icon = "fa-clock", color = "primary")
 ### Proporção de clientes com dívidas
 
 ```{r}
-prop_divida <- sum(credit$dividas == 0, na.rm = TRUE)/nrow(credit)
+prop_divida <- sum(credit$dividas != 0, na.rm = TRUE)/nrow(credit)
 prop_divida <- scales::percent(prop_divida, digits = 1)
 
 gauge(prop_divida, min = 0, max = 100, symbol = "%", gaugeSectors(colors = "danger"))
@@ -60,15 +61,21 @@ gauge(prop_divida, min = 0, max = 100, symbol = "%", gaugeSectors(colors = "dang
 prop_bons <- sum(credit$status == "bom")/nrow(credit)
 prop_bons <- scales::percent(prop_bons, digits = 1)
 
-gauge(prop_bons, min = 0, max = 100, symbol = "%", gaugeSectors(
-  success = c(80, 100), warning = c(40, 79), danger = c(0, 39)))
+gauge(
+  85,
+  min = 0, 
+  max = 100, 
+  symbol = "%", 
+  gaugeSectors(
+  success = c(80, 100), warning = c(40, 79), danger = c(0, 39))
+)
 ```
 
 
-Column
+Column {.tabset}
 -----------------------------------------------------------------------
 
-### Perfil dos clientes
+### Perfil dos clientes 1
 
 ```{r, fig.width=4.5, fig.height=3.5}
 credit %>% 
@@ -85,7 +92,11 @@ credit %>%
   labs(y = "Status", x = "Renda") +
   coord_cartesian(xlim = c(0, 500)) +
   theme_minimal()
+```
 
+### Perfil dos clientes
+
+```{r}
 credit %>% 
   filter(!is.na(trabalho)) %>% 
   mutate(status = fct_rev(status)) %>% 
@@ -102,6 +113,7 @@ credit %>%
   labs(x = "Moradia", y = "Número de clientes", fill = "Status") +
   theme_minimal()
 ```
+
 
 Exercícios
 =======================================================================
@@ -120,6 +132,8 @@ Column
 3. Divida a segunda coluna da página em duas, com duas caixas em cada coluna e um gráfico em cada caixa.
 
 4. Transforme a segunda coluna em um *tabset*, com 2 gráficos em cada aba.
+
+5. Crie uma nova página com 3 valueboxes (renda média, idade média e tempo médio de empresa) e um gauge (proporção de clientes com trabalho fixo).
 
 Column
 -----------------------------------------------------------------------
@@ -155,4 +169,54 @@ Para trocar o tema do *dashboard*, basta utilizar um dos nomes abaixo na opção
 - simplex
 
 - yeti
+
+Página 3
+=======================================================================
+
+Coluna {data-width=200}
+-------------------------------------------------
+
+### Renda média
+
+```{r}
+renda_media <- mean(credit$renda, na.rm = TRUE)
+renda_media <- scales::dollar(renda_media, prefix = "R$")
+
+valueBox(renda_media, color = "info", icon = "fa-money-check-alt")
+```
+
+### Idade média
+
+```{r}
+idade_media <- mean(credit$idade, na.rm = TRUE)
+idade_media <- idade_media %>% 
+  round() %>% 
+  paste("anos")
+
+valueBox(idade_media, color = "warning", icon = "fa-id-card")
+```
+
+### Tempo médio no emprego
+
+```{r}
+tempo_medio <- mean(credit$tempo_empresa, na.rm = TRUE)
+tempo_medio <- tempo_medio %>% 
+  round() %>% 
+  paste("meses")
+
+valueBox(tempo_medio, color = "#fafa33", icon = "fa-briefcase")
+```
+
+### Trabalho fixo
+
+```{r}
+prop_trab <- sum(credit$trabalho == "fixo", na.rm = TRUE)/nrow(credit)
+prop_trab <- scales::percent(prop_trab)
+
+gauge(prop_trab, min = 0, max = 100, symbol = "%")
+```
+
+
+Coluna
+-------------------------------------------------
 

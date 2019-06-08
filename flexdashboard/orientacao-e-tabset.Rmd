@@ -10,6 +10,7 @@ output:
       - {icon: "fa-github", href: "https://github.com/curso-r"}
 ---
 
+
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(tidyverse)
@@ -22,7 +23,7 @@ Row {data-height=100}
 
 ### Poder de ataque
 
-```{r, fig.width=13, fig.height=3}
+```{r, fig.width=5.5, fig.height=1.5}
 cores <- pkmn %>% 
   distinct(tipo_1, cor_1) %>% 
   arrange(tipo_1)
@@ -67,7 +68,6 @@ pkmn %>%
 ```
 
 ### Tipo lutador
-
 ```{r, fig.height=4, fig.width=7}
 pkmn %>%
   filter(tipo_1 == "lutador", !is.na(id_geracao)) %>% 
@@ -92,11 +92,38 @@ pkmn %>%
   theme_minimal()
 ```
 
+### Gelo
+
+```{r, fig.height=4, fig.width=7}
+pkmn %>%
+  filter(tipo_1 == "gelo", !is.na(id_geracao)) %>% 
+  mutate(
+    geracao = paste("Geração ", id_geracao)
+  ) %>%
+  ggplot(aes(x = geracao)) + 
+  geom_bar(fill = cores["gelo"]) + 
+  labs(x = "", y = "Número de pokémon") +
+  theme_minimal()
+
+pkmn %>%
+  filter(tipo_1 == "gelo") %>% 
+  gather(atributo, valor, 
+         hp, ataque, defesa, velocidade, ataque_especial, defesa_especial) %>%
+  mutate(
+    atributo = str_replace(atributo, "_", " ")
+  ) %>% 
+  ggplot(aes(x = atributo, y = valor)) + 
+  geom_boxplot(fill = cores["gelo"]) + 
+  labs(x = "Atributo", y = "Valor") +
+  theme_minimal()
+```
+
 ### Exercícios
 
 1. O que acontece se você remover o `.tabset` das opções da segunda linha.
 
-2. Acrescente mais uma aba à segunda linha, replicando os gráficos para algum outro tipo.
+2. Acrescente mais uma [aba](https://www.curso-r.com) à segunda linha, replicando os gráficos para algum outro tipo.
+
 
 <center>
 <img src="https://raw.githubusercontent.com/phalt/pokeapi/master/data/Pokemon_XY_Sprites/1.png">

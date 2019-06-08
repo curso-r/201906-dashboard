@@ -8,10 +8,10 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  echo = FALSE, 
+  echo = FALSE, #TRUE
   warning = FALSE, 
   message = FALSE,
-  fig.align = "center"
+  fig.align='center'
 )
 ```
 
@@ -20,8 +20,9 @@ library(tidyverse)
 imdb <- read_rds("../dados/imdb.rds")
 ```
 
-
 ### Introdução ao R Markdown
+
+https://bookdown.org/yihui/rmarkdown/
 
 Com o *R Markdown*, podemos gerar **texto, tabelas e gráficos** direto do R.
 
@@ -37,6 +38,11 @@ imdb %>%
   knitr::kable()
 ```
 
+```{r}
+num <- nrow(imdb)
+```
+
+A base tem `r num` linhas.
 
 #### Exemplos de gráfico
 
@@ -114,7 +120,7 @@ imdb %>%
   filter(n() >= 15) %>%
   ungroup() %>% 
   mutate(
-    diretor = fct_reorder(diretor, balanco, .fun = max, na.rm = TRUE)
+    diretor = fct_reorder(diretor, balanco, .fun = median, na.rm = TRUE)
   ) %>% 
   ggplot() +
   geom_boxplot(aes(x = diretor, y = balanco, fill = diretor)) +
@@ -127,11 +133,11 @@ imdb %>%
 
 ### Exercícios
 
-1. Na função `knitr::opts_chunk$set`, o que acontece se você mudar o argumento `echo`para `TRUE`.
+1. Na função `knitr::opts_chunk$set`, o que acontece se você mudar o argumento `echo` para `TRUE`.
 
-2. Na função `knitr::opts_chunk$set`, o que acontece se você mudar o argumento `warning`para `TRUE`.
+2. Na função `knitr::opts_chunk$set`, o que acontece se você mudar o argumento `warning` para `TRUE`.
 
-3. Na função `knitr::opts_chunk$set`, o que acontece se você mudar o argumento `message`para `TRUE`.
+3. Na função `knitr::opts_chunk$set`, o que acontece se você mudar o argumento `message` para `TRUE`.
 
 4. Na função `knitr::opts_chunk$set`, o que acontece se você retirar o argumento `fig.align`?
 
