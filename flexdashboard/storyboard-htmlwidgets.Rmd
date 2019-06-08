@@ -85,7 +85,7 @@ tibble(
 ) %>% 
 leaflet() %>% 
   addTiles() %>%
-  addPopups(lat = ~lat, lng = ~lng, popup = ~text)
+  addMarkers(lat = ~lat, lng = ~lng, popup = ~text)
 ```
 
 ***
@@ -109,7 +109,7 @@ imdb %>%
 
 ### Exercícios
 
-<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+<!-- <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif"> -->
 
 ***
 1. Confira outros **htmlwidgets** em http://www.htmlwidgets.org/showcase_leaflet.html.

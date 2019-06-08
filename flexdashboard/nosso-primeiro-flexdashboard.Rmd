@@ -16,7 +16,7 @@ Column {data-width=650}
 ### Uma tabela
 
 ```{r}
-knitr::kable(head(mtcars, 15))
+knitr::kable(head(mtcars, 30))
 ```
 
 Column {data-width=350}
