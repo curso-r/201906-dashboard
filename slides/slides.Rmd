@@ -129,13 +129,19 @@ Pacote do R que facilita a criação de aplicativos web pelo R.
 
 # Reatividade
 
-![](http://www.giphy.com/gifs/YS5RRVnaB6rtecGHWp)
+<video width="100%">
+<source src="img/reactividade.mp4" type="video/mp4">
+</video>
 
 ---
 
 # Reatividade
 
-![](http://www.giphy.com/gifs/LmmJHbz4f00EGSrYUs)
+
+<video width="100%">
+<source src="img/reactive-expressions.mp4" type="video/mp4">
+</video>
+
 
 ---
 
