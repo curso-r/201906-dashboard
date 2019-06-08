@@ -15,19 +15,28 @@ ui <- dashboardPage(
       choices = lista_pokemon, 
       label = "Selecione um Pokemon",
       selected = "bulbasaur"
+    ),
+    selectizeInput(
+      inputId = "tipo",
+      choices = unique(dados$tipo_1),
+      label = "Selecione um tipo",
+      selected = unique(dados$tipo_1)[1]
     )
   ),
   dashboardBody(
     fluidRow(
       box(
         width = 4,
-        title = "Imagem",
+        title = textOutput("a"),
         htmlOutput("img")
       ),
       box(
-        width = 4,
+        width = 6,
         title = "Atributos",
-        valueBoxOutput("ataque", width = 12)
+        valueBoxOutput("ataque", width = 12),
+        valueBoxOutput("defesa", width = 12),
+        valueBoxOutput("altura", width = 12),
+        valueBoxOutput("altura_media", width = 12)
       )
     )
   )
@@ -36,9 +45,24 @@ ui <- dashboardPage(
 server <- function(input, output) {
   
   pokemon_dados <- reactive({
-    dados %>% 
+    d <- dados %>% 
       filter(pokemon == input$pokemon) %>% 
       as.list()
+    d
+  })
+  
+  dados_tipo <- reactive({
+    d <- dados %>% 
+      filter(tipo_1 == pokemon_dados()$tipo_1)
+    #browser()
+    d
+  })
+  
+  output$altura_media <- renderValueBox({
+    valueBox(
+      value = round(mean(dados_tipo()$altura), 2),
+      subtitle = "Média da altura"
+    )
   })
   
   output$img <- renderText({
@@ -52,6 +76,22 @@ server <- function(input, output) {
       subtitle = "Ataque"
     )
   })
+  
+  output$defesa <- renderValueBox({
+    valueBox(
+      value = pokemon_dados()$defesa,
+      subtitle = "Defesa"
+    )
+  })
+  
+  output$altura <- renderValueBox({
+    valueBox(
+      value = pokemon_dados()$altura,
+      subtitle = "Altura"
+    )
+  })
+  
+  output$a <- renderText({input$pokemon})
 }
 
 shinyApp(ui, server)

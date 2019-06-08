@@ -6,9 +6,13 @@ dados <- readRDS("dados/imdb.rds")
 ui <- dashboardPage(
   dashboardHeader(title = "IMDB"),
   dashboardSidebar(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+    ),
     sidebarMenu(
       menuItem("Filmes", tabName = "filmes", icon = icon("dashboard")),
-      menuItem("Diretores", tabName = "diretores", icon = icon("user"))
+      menuItem("Diretores", tabName = "diretores", icon = icon("user")),
+      menuItem("Artistas", tabName = "artistas", icon = icon("user"))
     )
   ),
   dashboardBody(
@@ -64,7 +68,7 @@ server <- function(input, output) {
       cor <- "red"
     
     
-    valor <- scales::dollar(filme()$balanco)
+    valor <- scales::dollar(filme()$balanco, prefix = "R$", big.mark = ".", decimal.mark = ",")
     
     valueBox(valor, "Balanço", color =  cor)
   })

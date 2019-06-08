@@ -4,7 +4,14 @@ library(shiny)
 ui <- fluidPage(
   titlePanel("Olá Mundo"),
   fluidRow(
-    plotOutput("histogram")
+    column(
+      width = 6,
+      plotOutput(outputId = "histogram")  
+    ),
+    column(
+      width = 6,
+      plotOutput(outputId = "histogram2") 
+    )
   )
 )
 
@@ -12,6 +19,10 @@ ui <- fluidPage(
 server <- function(input, output) {
   output$histogram <- renderPlot({
     hist(mtcars$mpg)
+  })
+  
+  output$histogram2 <- renderPlot({
+    hist(mtcars$hp)
   })
 }
 
