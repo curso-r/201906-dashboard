@@ -2,7 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(dplyr)
 
-dados <- readRDS("../dados/pkmn.rds")
+dados <- readRDS("dados/pkmn.rds")
 
 lista_pokemon <- as.list(dados$pokemon)
 names(lista_pokemon) <- stringr::str_to_title(lista_pokemon)

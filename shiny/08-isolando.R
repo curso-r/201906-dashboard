@@ -4,7 +4,7 @@ library(dplyr)
 library(DT)
 library(highcharter)
 
-dados <- readRDS("../dados/credit.rds")
+dados <- readRDS("dados/credit.rds")
 
 options(shiny.reactlog = TRUE)
 

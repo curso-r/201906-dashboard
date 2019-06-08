@@ -1,7 +1,7 @@
 library(shiny)
 library(shinydashboard)
 
-dados <- readRDS("../dados/imdb.rds")
+dados <- readRDS("dados/imdb.rds")
 
 ui <- dashboardPage(
   dashboardHeader(title = "IMDB"),
